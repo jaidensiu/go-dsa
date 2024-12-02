@@ -7,6 +7,8 @@ AddTwoNumbers converts the two int arrays into integers, computes their sum, and
 converts the sum back into an array.
 
 time = O(n), space = O(n)
+
+Is there a way to optimize the space?
 */
 func AddTwoNumbers(num1, num2 []int) []int {
 	return intToArray(arrayToInt(num1) + arrayToInt(num2))
