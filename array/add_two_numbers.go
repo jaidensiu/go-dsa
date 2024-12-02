@@ -1,40 +1,39 @@
 package array
 
-// AddTwoNumbers solves the problem in O(n) time and O(1) space.
+import "math"
+
+/*
+AddTwoNumbers converts the two int arrays into integers, computes their sum, and
+converts the sum back into an array.
+
+time = O(n), space = O(n)
+*/
 func AddTwoNumbers(num1, num2 []int) []int {
-	num1, num2 = equalizeLengths(num1, num2)
-	carry := false
-	for i := len(num1) - 1; i > -1; i-- {
-		num1[i] += num2[i]
-		if carry {
-			num1[i]++
-			carry = false
-		}
-		if num1[i] >= 10 {
-			num1[i] -= 10
-			carry = true
-		}
-	}
-	if carry {
-		num1 = append([]int{1}, num1...)
-	}
-	return num1
+	return intToArray(arrayToInt(num1) + arrayToInt(num2))
 }
 
-func equalizeLengths(num1, num2 []int) ([]int, []int) {
-	diff := absDiff(len(num1), len(num2))
-	zeros := make([]int, diff)
-	if len(num2) > len(num1) {
-		num1 = append(zeros, num1...)
-	} else if len(num1) > len(num2) {
-		num2 = append(zeros, num2...)
+func arrayToInt(arr []int) int {
+	result := 0
+
+	for i, v := range arr {
+		result += v * int(math.Pow10(len(arr)-i-1))
 	}
-	return num1, num2
+
+	return result
 }
 
-func absDiff(a, b int) int {
-	if a > b {
-		return a - b
+func intToArray(num int) []int {
+	if num == 0 {
+		return []int{0}
 	}
-	return b - a
+
+	var result []int
+
+	for num > 0 {
+		digit := num % 10
+		result = append([]int{digit}, result...)
+		num /= 10
+	}
+
+	return result
 }
